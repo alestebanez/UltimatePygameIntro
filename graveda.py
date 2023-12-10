@@ -2,7 +2,7 @@ import pygame
 from sys import exit
 
 POTENCIA_SALTO = -20
-VERTICAL_STEP = 1
+
 
 pygame.init()
 mouse_pos = pygame.mouse.get_pos()
@@ -20,7 +20,7 @@ player_surface =pygame.image.load("graphics/Player/player_walk_1.png").convert_a
 player_rect =player_surface.get_rect(midbottom=(100,300))
 
 player_gravity = 0
-saltando = False
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -28,10 +28,11 @@ while True:
             exit()
         if event.type == pygame.KEYDOWN:
             if event.key ==pygame.K_SPACE:
-                if saltando == False: # si no esta saltando, cuando esta en el suelo
-                    print("Jump") # activo el salto
-                    saltando = True
-                    player_gravity = POTENCIA_SALTO
+                if player_rect.bottom>=300:
+                
+                    player_gravity += POTENCIA_SALTO
+                    
+                 
                                      
                                
         if event.type==pygame.MOUSEMOTION:
@@ -39,15 +40,13 @@ while True:
             if player_rect.collidepoint(event.pos):
                 print("Collision")
     
-    if saltando: # si esta saltando hago los calculos
-        player_gravity+=VERTICAL_STEP 
-        print("Gravity="+str(player_gravity))
-        player_rect.y+=player_gravity
-        print("pos y:"+str(player_rect.y))    
-        
+    
+       
+    player_rect.y +=player_gravity        
+    player_gravity+= 1
     if player_rect.bottom > 300: # ha tocado el suelo
         player_rect.bottom = 300               
-        saltando = False # ya no esta saltando
+        player_gravity = 0 # ya no esta saltando
         
     screen.blit(sky_surface,(0,0))
     screen.blit(ground_surface,(0,300))
@@ -59,8 +58,8 @@ while True:
     screen.blit(score_surface,score_rect)
     
     snail_rect.x -= 4
-    if snail_rect.x<-100:snail_rect.left=800
+    if snail_rect.x<-100:
+        snail_rect.left=800
  
     pygame.display.update()
     clock.tick(60)
-    
