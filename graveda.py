@@ -20,7 +20,7 @@ player_surface =pygame.image.load("graphics/Player/player_walk_1.png").convert_a
 player_rect =player_surface.get_rect(midbottom=(100,300))
 
 player_gravity = 0
-
+salto = False
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -28,9 +28,10 @@ while True:
             exit()
         if event.type == pygame.KEYDOWN:
             if event.key ==pygame.K_SPACE:
-                if player_rect.bottom>=300:
+                if salto == False:
+                    salto= True
+                    player_gravity+= POTENCIA_SALTO
                 
-                    player_gravity += POTENCIA_SALTO
                     
                  
                                      
@@ -40,10 +41,9 @@ while True:
             if player_rect.collidepoint(event.pos):
                 print("Collision")
     
-    
-       
-    player_rect.y +=player_gravity        
-    player_gravity+= 1
+    if salto:
+       player_rect.y +=player_gravity        
+       player_gravity+= 1
     if player_rect.bottom > 300: # ha tocado el suelo
         player_rect.bottom = 300               
         player_gravity = 0 # ya no esta saltando
