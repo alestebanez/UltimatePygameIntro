@@ -12,9 +12,10 @@ def display_score():
     score_rect =score_surf.get_rect(center= (400,50))
     screen.blit(score_surf,score_rect)
     return score
+def obstacle_movement(obstacle_list):
+    
 
-
-pygame.init()
+ pygame.init()
 POTENCIA_SALTO = -20
 VERTICAL_STEP = 1
 mouse_pos = pygame.mouse.get_pos()
